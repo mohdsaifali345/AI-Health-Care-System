@@ -238,7 +238,7 @@
 
         <script>
     const startSpeechRecognitionButton = document.getElementById('startSpeechRecognition');
-    const transcriptionDiv = document.getElementById('transcription');
+    const transcriptionInput = document.getElementById('symptoms'); // Reference the input field for symptoms
 
     startSpeechRecognitionButton.addEventListener('click', startSpeechRecognition);
 
@@ -248,17 +248,22 @@
         recognition.lang = 'en-US'; // Set the language for recognition
 
         recognition.onresult = function (event) {
-            const result = event.results[0][0].transcript;
-            transcriptionDiv.textContent = result;
+            let result = event.results[0][0].transcript; // Capture the speech text
+            result = result.toLowerCase();
+            result = result.replace(/\./g, ',');
+            result = result.replace(/[,\.]+$/, '');
+
+            transcriptionInput.value = result; // Set the captured text in the input field
         };
 
         recognition.onend = function () {
             console.log('Speech recognition ended.');
         };
 
-        recognition.start();
+        recognition.start(); // Start speech recognition
     }
 </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
